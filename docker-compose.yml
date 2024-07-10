@@ -80,6 +80,18 @@ services:
     ports:
       - ${SONARR_PORT}:8989
     restart: unless-stopped
+  prowlarr:
+    image: lscr.io/linuxserver/prowlarr:latest
+    container_name: prowlarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+    volumes:
+      - ./prowlarr/config:/config
+    ports:
+      - ${PROWLARR_PORT}:9696
+    restart: unless-stopped
 
 volumes:
   portainer_data:
