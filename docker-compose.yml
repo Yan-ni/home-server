@@ -80,6 +80,20 @@ services:
     ports:
       - ${SONARR_PORT}:8989
     restart: unless-stopped
+  radarr:
+    image: lscr.io/linuxserver/radarr:latest
+    container_name: radarr
+    environment:
+      - PUID=0
+      - PGID=0
+      - TZ=Europe/Paris
+    volumes:
+      - ./radarr/config:/config
+      - ${MEDIA_APTH}movies:/movies
+      - ${QBITTORRENT_DOWNLOAD_PATH}:/downloads
+    ports:
+      - ${RADARR_PORT}:7878
+    restart: unless-stopped
   prowlarr:
     image: lscr.io/linuxserver/prowlarr:latest
     container_name: prowlarr
