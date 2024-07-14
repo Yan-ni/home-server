@@ -139,6 +139,7 @@ services:
     volumes:
       - ./readarr/config:/config
       - ${MEDIA_APTH}books:/books
+      - ${MEDIA_APTH}audiobooks:/audiobooks
       - ${QBITTORRENT_DOWNLOAD_PATH}:/downloads
     ports:
       - ${READARR_PORT}:8787
