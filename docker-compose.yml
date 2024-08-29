@@ -187,6 +187,32 @@ services:
       - ${MEDIA_APTH}movies:/data/movies
     ports:
       - ${JELLYFIN_PORT}:8096
+  ytdl_material:
+    container_name: ytdl
+    image: tzahi12345/youtubedl-material:latest
+    restart: always
+    environment: 
+      ytdl_mongodb_connection_string: 'mongodb://ytdl-mongo-db:27017'
+      ytdl_use_local_db: 'false'
+      write_ytdl_config: 'true'
+    depends_on:
+      - ytdl-mongo-db
+    volumes:
+      - ./ytdl/appdata:/app/appdata
+      - ./ytdl/audio:/app/audio
+      - ./ytdl/video:/app/video
+      - ./ytdl/subscriptions:/app/subscriptions
+      - ./ytdl/users:/app/users
+    ports:
+        - $(YTDL_PORT):17442
+  ytdl-mongo-db:
+    container_name: ytdl-mongo-db
+    image: mongo:4
+    restart: always
+    logging:
+      driver: "none"          
+    volumes:
+      - ./db/:/data/db
 
 volumes:
   mealie-data:
