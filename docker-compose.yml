@@ -204,7 +204,7 @@ services:
       - ./ytdl/subscriptions:/app/subscriptions
       - ./ytdl/users:/app/users
     ports:
-        - $(YTDL_PORT):17442
+        - ${YTDL_PORT}:17442
   ytdl-mongo-db:
     container_name: ytdl-mongo-db
     image: mongo:4
