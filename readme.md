@@ -4,10 +4,6 @@ This repository regroups all the services I run in my home server.
 
 ## Services
 
-### Homarr
-
-I use this container to create dashboards to easily display and access these services.
-
 ### Portainer
 
 I use this to be able to manage all these containers through a webview and remotely.

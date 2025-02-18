@@ -1,5 +1,4 @@
 .env
-homarr/
 vw-data/
 qbittorrent/
 media/
@@ -11,4 +10,3 @@ overseerr/
 readarr/
 audiobookshelf/
 jellyfin/
-ytdl/
