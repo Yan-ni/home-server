@@ -57,7 +57,3 @@ I use this to listen to my audio books.
 ### mealie
 
 I use this to manage the recipies I cook.
-
-### Joplin 
-
-Note taking app.

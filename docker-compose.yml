@@ -179,37 +179,6 @@ services:
     ports:
       - ${JELLYFIN_PORT}:8096
 
-  joplin-database:
-    container_name: joplin-database
-    image: postgres:latest
-    environment:
-      POSTGRES_DATABASE: joplin
-      POSTGRES_DB: joplin
-      POSTGRES_USER: ${JOPLIN_POSTGRES_USER}
-      POSTGRES_PASSWORD: ${JOPLIN_POSTGRES_PASSWORD}
-    volumes:
-      - joplin-database:/var/lib/postgresql/data
-    restart: unless-stopped
-
-  joplin-server:
-    container_name: joplin-server
-    image: joplin/server:latest
-    restart: unless-stopped
-    user: root
-    environment:
-      DB_CLIENT: pg
-      APP_BASE_URL: ${JOPLIN_APP_BASE_URL}
-      POSTGRES_HOST: joplin-database
-      POSTGRES_NAME: joplin
-      POSTGRES_PORT: 5432
-      POSTGRES_USER: ${JOPLIN_POSTGRES_USER}
-      POSTGRES_PASSWORD: ${JOPLIN_POSTGRES_PASSWORD}
-    ports:
-      - ${JOPLIN_PORT}:22300
-    depends_on:
-      - joplin-database
-
 volumes:
   mealie-data:
   portainer_data:
-  joplin-database:
