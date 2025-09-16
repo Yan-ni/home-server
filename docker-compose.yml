@@ -122,7 +122,7 @@ services:
       - ${OVERSEERR_PORT}:5055
   readarr:
     container_name: readarr
-    image: lscr.io/linuxserver/readarr:develop
+    image: linuxserver/readarr:develop
     restart: unless-stopped
     environment:
       - PUID=0
