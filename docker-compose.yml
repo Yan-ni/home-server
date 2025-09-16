@@ -120,21 +120,37 @@ services:
       - ./overseerr/config:/config
     ports:
       - ${OVERSEERR_PORT}:5055
-  readarr:
-    container_name: readarr
-    image: linuxserver/readarr:develop
-    restart: unless-stopped
+  rreading-glasses-db:
+    image: postgres:17
+    container_name: postgres
+    restart: always
     environment:
-      - PUID=0
-      - PGID=0
-      - TZ=${TIMEZONE}
+      POSTGRES_USER: rreading-glasses
+      POSTGRES_PASSWORD: ${RREADING_GLASSES_DB_PASSWORD}
+      POSTGRES_DB: rreading-glasses
     volumes:
-      - ./readarr/config:/config
-      - ${MEDIA_APTH}books:/books
-      - ${MEDIA_APTH}audiobooks:/audiobooks
-      - ${QBITTORRENT_DOWNLOAD_PATH}:/downloads
+      - rreading_glasses_data:/var/lib/postgresql/data
+  rreading-glasses:
+    depends_on:
+      rreading-glasses-db:
+        condition: service_started
+    image: blampe/rreading-glasses:latest
+    pull_policy: always
+    container_name: rreading-glasses
+    hostname: rreading-glasses
+    entrypoint: ["/main", "serve"]
+    command:
+      - --upstream=www.goodreads.com
+      - --verbose
+    restart: always
+    mem_limit: 128m
+    environment:
+      POSTGRES_HOST: rreading-glasses-db
+      POSTGRES_DATABASE: rreading-glasses
+      POSTGRES_USER: rreading-glasses
+      POSTGRES_PASSWORD: ${RREADING_GLASSES_DB_PASSWORD}
     ports:
-      - ${READARR_PORT}:8787
+      - ${RREADING_GLASSES_PORT}:8788
   audiobookshelf:
     container_name: audiobookshelf
     image: ghcr.io/advplyr/audiobookshelf:latest
@@ -182,3 +198,4 @@ services:
 volumes:
   mealie-data:
   portainer_data:
+  rreading_glasses_data:
