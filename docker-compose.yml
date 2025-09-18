@@ -120,37 +120,6 @@ services:
       - ./overseerr/config:/config
     ports:
       - ${OVERSEERR_PORT}:5055
-  rreading-glasses-db:
-    image: postgres:17
-    container_name: postgres
-    restart: always
-    environment:
-      POSTGRES_USER: rreading-glasses
-      POSTGRES_PASSWORD: ${RREADING_GLASSES_DB_PASSWORD}
-      POSTGRES_DB: rreading-glasses
-    volumes:
-      - rreading_glasses_data:/var/lib/postgresql/data
-  rreading-glasses:
-    depends_on:
-      rreading-glasses-db:
-        condition: service_started
-    image: blampe/rreading-glasses:latest
-    pull_policy: always
-    container_name: rreading-glasses
-    hostname: rreading-glasses
-    entrypoint: ["/main", "serve"]
-    command:
-      - --upstream=www.goodreads.com
-      - --verbose
-    restart: always
-    mem_limit: 128m
-    environment:
-      POSTGRES_HOST: rreading-glasses-db
-      POSTGRES_DATABASE: rreading-glasses
-      POSTGRES_USER: rreading-glasses
-      POSTGRES_PASSWORD: ${RREADING_GLASSES_DB_PASSWORD}
-    ports:
-      - ${RREADING_GLASSES_PORT}:8788
   audiobookshelf:
     container_name: audiobookshelf
     image: ghcr.io/advplyr/audiobookshelf:latest
