@@ -1,59 +1,20 @@
 # Home server
 
-This repository regroups all the services I run in my home server.
+This repository regroups all the tools I run in my server.
 
-## Services
+## Services internal ports
 
-### Portainer
-
-I use this to be able to manage all these containers through a webview and remotely.
-
-### Vaultwarden
-
-This is the password manager I use to store and manage all my passwords in one safe place.
-
-### QbitTorrent
-
-This is the torrent client I use to download any torrent.
-
-### Filebrowser
-
-This is the web based file browser I use to view and manage my media folder files.
-
-### Arrs
-
-#### Prowlarr
-
-This is the solution I use to monitor all the indexers I use to find torrents.
-
-#### Sonarr
-
-This is the solution I use to monitor all the tv shows I watch.
-
-#### Radarr
-
-This is the solution I use to monitor all the movies I watch.
-
-#### Readarr
-
-This is the solution I use to monitor all the ebooks/audio books I read.
-
-### Overseer
-
-I use this to request the media (tvshows & movies) I want to watch.
-
-### Plex
-
-I use this to watch all the media in my server.
-
-### Jellyfin
-
-I use this to watch all the media in my server.
-
-### audiobookshelf
-
-I use this to listen to my audio books.
-
-### mealie
-
-I use this to manage the recipies I cook.
+| Service         | Port | Description             |
+|-----------------|------|-------------------------|
+| vaultWarden     | 80   | password manager        |
+| qbittorrent     | 80   | torrent downloader      |
+| filebrowser     | 80   | file explorer           |
+| plex            | 32400| media server            |
+| sonarr          | 8989 | tv shows downloader     |
+| radarr          | 7878 | movies downloader       |
+| prowlarr        | 9696 | indexer manager         |
+| flaresolvarr    | 8191 | cloudflare solver proxy |
+| overseerr       | 5055 | media requests          |
+| audiobookshelf  | 80   | audiobooks/podcasts     |
+| mealie          | 9000 | recipe manager          |
+| jellyfin        | 8096 | media server            |

@@ -1,23 +1,11 @@
 services:
-  portainer:
-    container_name: portainer
-    image: portainer/portainer-ce:latest
-    restart: unless-stopped
-    environment:
-      TRUSTED_ORIGINS: ${PORTAINER_TRUSTERD_ORIGINS:-http://localhost:9000}
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - portainer_data:/data
-    ports:
-      - ${PORTAINER_PORT}:9000
   vault:
     container_name: vault
     image: vaultwarden/server:latest
     restart: unless-stopped
-    ports:
-      - ${VAULT_PORT}:80
     volumes:
       - ./vw-data:/data
+  
   qbittorrent:
     container_name: qbittorrent
     image: lscr.io/linuxserver/qbittorrent:latest
@@ -25,13 +13,12 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
+      - WEBUI_PORT=80
       - TZ=${TIMEZONE}
-      - WEBUI_PORT=${QBITTORRENT_PORT}
     volumes:
       - ./qbittorrent/config:/config
       - ${QBITTORRENT_DOWNLOAD_PATH}:/downloads
-    ports:
-      - ${QBITTORRENT_PORT}:${QBITTORRENT_PORT}
+  
   filebrowser:
     container_name: filebrowser
     image: filebrowser/filebrowser
@@ -39,8 +26,7 @@ services:
     volumes:
       - ${FILEBROWSER_HOME_PATH}:/srv
       - ./filebrowser.json:/.filebrowser.json
-    ports:
-      - ${FILEBROWSER_PORT}:80
+  
   plex:
     image: lscr.io/linuxserver/plex:latest
     container_name: plex
@@ -52,11 +38,10 @@ services:
       - VERSION=docker
     restart: unless-stopped
     volumes:
-      - ${MEDIA_APTH}library:/config
-      - ${MEDIA_APTH}tvseries:/tv
-      - ${MEDIA_APTH}movies:/movies
-    ports:
-      - ${PLEX_PORT}:32400
+      - ${MEDIA_PATH}library:/config
+      - ${MEDIA_PATH}tvseries:/tv
+      - ${MEDIA_PATH}movies:/movies
+  
   sonarr:
     container_name: sonarr
     image: lscr.io/linuxserver/sonarr:latest
@@ -67,10 +52,9 @@ services:
       - TZ=${TIMEZONE}
     volumes:
       - ./sonarr/config:/config
-      - ${MEDIA_APTH}tvseries:/tv
+      - ${MEDIA_PATH}tvseries:/tv
       - ${QBITTORRENT_DOWNLOAD_PATH}:/downloads
-    ports:
-      - ${SONARR_PORT}:8989
+  
   radarr:
     container_name: radarr
     image: lscr.io/linuxserver/radarr:latest
@@ -81,10 +65,9 @@ services:
       - TZ=${TIMEZONE}
     volumes:
       - ./radarr/config:/config
-      - ${MEDIA_APTH}movies:/movies
+      - ${MEDIA_PATH}movies:/movies
       - ${QBITTORRENT_DOWNLOAD_PATH}:/downloads
-    ports:
-      - ${RADARR_PORT}:7878
+  
   prowlarr:
     image: lscr.io/linuxserver/prowlarr:latest
     container_name: prowlarr
@@ -95,8 +78,7 @@ services:
       - TZ=${TIMEZONE}
     volumes:
       - ./prowlarr/config:/config
-    ports:
-      - ${PROWLARR_PORT}:9696
+  
   flaresolverr:
     container_name: flaresolverr
     image: ghcr.io/flaresolverr/flaresolverr:latest
@@ -106,8 +88,7 @@ services:
       - LOG_HTML=${LOG_HTML:-false}
       - CAPTCHA_SOLVER=${CAPTCHA_SOLVER:-none}
       - TZ=${TIMEZONE}
-    ports:
-      - "${PORT:-8191}:8191"
+  
   overseerr:
     container_name: overseerr
     image: lscr.io/linuxserver/overseerr:latest
@@ -118,27 +99,23 @@ services:
       - TZ=${TIMEZONE}
     volumes:
       - ./overseerr/config:/config
-    ports:
-      - ${OVERSEERR_PORT}:5055
+  
   audiobookshelf:
     container_name: audiobookshelf
     image: ghcr.io/advplyr/audiobookshelf:latest
     restart: unless-stopped
     volumes:
-      - ${MEDIA_APTH}audiobooks:/audiobooks
-      - ${MEDIA_APTH}podcasts:/podcasts
+      - ${MEDIA_PATH}audiobooks:/audiobooks
+      - ${MEDIA_PATH}podcasts:/podcasts
       - ./audiobookshelf/config/:/config
       - ./audiobookshelf/metadata/:/metadata
-    ports:
-      - ${AUDIOBOOKSHELF_PORT}:80
     environment:
       - TZ=${TIMEZONE}
+  
   mealie:
     container_name: mealie
-    image: ghcr.io/mealie-recipes/mealie:v1.10.2 # 
+    image: ghcr.io/mealie-recipes/mealie:v1.10.2
     restart: unless-stopped
-    ports:
-      - "${MEALIE_PORT}:9000"
     environment:
       - ALLOW_SIGNUP=true
       - PUID=1000
@@ -149,6 +126,7 @@ services:
       - BASE_URL=http://localhost
     volumes:
       - mealie-data:/app/data/
+  
   jellyfin:
     container_name: jellyfin
     image: lscr.io/linuxserver/jellyfin:latest
@@ -158,13 +136,9 @@ services:
       - PGID=1000
       - TZ=${TIMEZONE}
     volumes:
-      - ${MEDIA_APTH}library:/config
-      - ${MEDIA_APTH}tvseries:/data/tvshows
-      - ${MEDIA_APTH}movies:/data/movies
-    ports:
-      - ${JELLYFIN_PORT}:8096
+      - ${MEDIA_PATH}library:/config
+      - ${MEDIA_PATH}tvseries:/data/tvshows
+      - ${MEDIA_PATH}movies:/data/movies
 
 volumes:
   mealie-data:
-  portainer_data:
-  rreading_glasses_data:
