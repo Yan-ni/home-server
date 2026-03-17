@@ -79,6 +79,19 @@ services:
     volumes:
       - ./prowlarr/config:/config
   
+  bazarr:
+    container_name: bazarr
+    image: lscr.io/linuxserver/bazarr:latest
+    restart: unless-stopped
+    environment:
+      - PUID=0
+      - PGID=0
+      - TZ=${TIMEZONE}
+    volumes:
+      - ./bazarr/config:/config
+      - ${MEDIA_PATH}tvseries:/tv
+      - ${MEDIA_PATH}movies:/movies
+
   flaresolverr:
     container_name: flaresolverr
     image: ghcr.io/flaresolverr/flaresolverr:latest
