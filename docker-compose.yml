@@ -37,6 +37,7 @@ services:
     image: filebrowser/filebrowser
     restart: unless-stopped
     volumes:
+      - ./filebrowser/database:/database
       - ${FILEBROWSER_HOME_PATH}:/srv
       - ./filebrowser.json:/.filebrowser.json
     ports:
