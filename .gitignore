@@ -6,9 +6,9 @@ downloads/
 sonarr/
 radarr/
 prowlarr/
-overseerr/
+seerr/
 readarr/
 audiobookshelf/
 jellyfin/
-filebrowser/database/
+filebrowser/
 bazarr/

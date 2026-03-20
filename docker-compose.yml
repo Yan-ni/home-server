@@ -127,18 +127,19 @@ services:
       - TZ=${TIMEZONE}
     ports:
       - "${PORT:-8191}:8191"
-  overseerr:
-    container_name: overseerr
-    image: lscr.io/linuxserver/overseerr:latest
+  seerr:
+    container_name: seerr
+    image: ghcr.io/seerr-team/seerr:latest
     restart: unless-stopped
+    init: true
     environment:
-      - PUID=1000
-      - PGID=1000
+      - LOG_LEVEL=debug
       - TZ=${TIMEZONE}
+      - PORT=5055
     volumes:
-      - ./overseerr/config:/config
+      - ./seerr/config:/config
     ports:
-      - ${OVERSEERR_PORT}:5055
+      - ${SEERR_PORT}:5055
   audiobookshelf:
     container_name: audiobookshelf
     image: ghcr.io/advplyr/audiobookshelf:latest
