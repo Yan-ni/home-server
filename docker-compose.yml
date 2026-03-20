@@ -34,12 +34,15 @@ services:
       - ${QBITTORRENT_PORT}:${QBITTORRENT_PORT}
   filebrowser:
     container_name: filebrowser
-    image: filebrowser/filebrowser
+    image: filebrowser/filebrowser:s6
     restart: unless-stopped
+    environment:
+      - PUID=1000
+      - PGID=1000
     volumes:
       - ./filebrowser/database:/database
       - ${FILEBROWSER_HOME_PATH}:/srv
-      - ./filebrowser.json:/.filebrowser.json
+      - ./filebrowser/config:/config
     ports:
       - ${FILEBROWSER_PORT}:80
   plex:
