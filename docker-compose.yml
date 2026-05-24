@@ -137,7 +137,7 @@ services:
       - TZ=${TIMEZONE}
       - PORT=5055
     volumes:
-      - ./seerr/config:/config
+      - ./seerr/config:/app/config
     ports:
       - ${SEERR_PORT}:5055
   audiobookshelf:
